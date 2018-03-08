@@ -123,9 +123,9 @@ date.timezone = Europe/Madrid
 
 ```
 mysql -u root -p
-CREATE DATABASE prestadb;
-CREATE USER 'prestauser'@'localhost' IDENTIFIED BY 'prestadb_n4r4n';
-GRANT ALL ON prestadb.* TO 'prestauser'@'localhost' IDENTIFIED BY 'prestadb_n4r4n' WITH GRANT OPTION;
+CREATE DATABASE prestashopdb;
+CREATE USER 'prestashopuser'@'localhost' IDENTIFIED BY 'SUPERPASS';
+GRANT ALL ON prestashopdb.* TO 'prestashopuser'@'localhost' IDENTIFIED BY 'SUPERPASS' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 EXIT;
 ```
@@ -195,8 +195,8 @@ apt-get install python-certbot-nginx
 
 ```
 certbot --authenticator webroot --installer nginx
-certbot --authenticator standalone --installer nginx --pre-hook "service nginx stop" --post-hook "service nginx start" -d hipnoticmediaclub.com -d www.hipnoticmediaclub.com
-certbot --pre-hook "service nginx stop" --post-hook "service nginx start" --nginx -m arkalira@gmail.com -d hipnoticmediaclub.com -d www.hipnoticmediaclub.com
+certbot --authenticator standalone --installer nginx --pre-hook "service nginx stop" --post-hook "service nginx start" -d example.com -d www.example.com
+certbot --pre-hook "service nginx stop" --post-hook "service nginx start" --nginx -m supermail@mail.com -d example.com -d www.example.com
 ```
 
 ### Check that prestashop file has been correctly edited under end of 80 original conf
