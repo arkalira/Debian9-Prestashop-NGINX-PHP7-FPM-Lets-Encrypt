@@ -65,6 +65,7 @@ modprobe sysdig-probe
 ```
 
 ## Install Prestashop
+
 ### INSTALL NGINX
 
 ```
@@ -108,11 +109,15 @@ apt install apt-transport-https lsb-release ca-certificates && wget -O /etc/apt/
 sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
 apt update && apt install php7.1-fpm php7.1-common php7.1-mbstring php7.1-xmlrpc php7.1-soap php7.1-gd php7.1-xml php7.1-intl php7.1-mysql php7.1-cli php7.1-mcrypt php7.1-ldap php7.1-zip php7.1-curl
 ```
+
 #### Edit php.ini options
+
 ```
 vim /etc/php/7.1/fpm/php.ini
 ```
---- Change FOLLOWING LINES:
+
+#### Change FOLLOWING LINES:
+
 ```
 file_uploads = On
 allow_url_fopen = On
@@ -122,7 +127,6 @@ max_execution_time = 540
 cgi.fix_pathinfo = 0
 date.timezone = Europe/Madrid
 ```
-----
 
 ### CREATE PRESTASHOP DATABASE
 
