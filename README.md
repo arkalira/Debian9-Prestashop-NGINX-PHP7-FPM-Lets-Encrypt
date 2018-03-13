@@ -1,11 +1,13 @@
-# Prestashop install in Debian 9 with NGINX, PHP7.2-FPM, MariaDB and Lets Encrypt
+# Prestashop install in Debian 9 with NGINX, PHP7.1-FPM, MariaDB and Lets Encrypt
 
 ## Update and install software
+
 ```
 apt update && apt install -y vim mc uml-utilities ntp qemu-guest-agent \
 htop sudo curl git-core etckeeper molly-guard apt-transport-https ca-certificates \
 bridge-utils gettext-base jq -y < /dev/null
 ```
+
 ### Install Oh-my-zsh
 
 ```
@@ -82,7 +84,7 @@ mysql_secure_installation
 ```
 
 #### Select following options
----
+
 ```
 Enter current password for root (enter for none): Just press the Enter
 Set root password? [Y/n]: Y
@@ -94,7 +96,6 @@ Remove test database and access to it? [Y/n]:  Y
 Reload privilege tables now? [Y/n]:  Y
 Restart MariaDB server
 ```
----
 
 ### Restart Nginx
 
