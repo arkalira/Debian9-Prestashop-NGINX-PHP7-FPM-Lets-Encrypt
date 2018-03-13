@@ -102,7 +102,9 @@ Restart MariaDB server
 ```
 sudo systemctl restart mysql.service
 ```
-## Install PHP 7.1-FPM
+
+### INSTALL PHP 7.1 FPM
+
 ```
 
 apt install apt-transport-https lsb-release ca-certificates && wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
