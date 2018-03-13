@@ -148,33 +148,79 @@ vim /etc/nginx/sites-available/prestashop
 
 server {
     listen 80;
-    listen [::]:80;
+    listen [::]:80;   #Use this to enable IPv6
+    server_name example.com www.example.com;
+
     root /var/www/html/prestashop;
-    index  index.php index.html index.htm;
-    server_name  example.com www.example.com;
+    access_log /var/log/nginx/access.log;
+    error_log /var/log/nginx/error.log;
 
-    location / {
+    index index.php index.html;
+
+    location = /favicon.ico {
+        log_not_found off;
+        access_log off;
+    }
+
+    location = /robots.txt {
+        auth_basic off;
+        allow all;
+        log_not_found off;
+        access_log off;
+    }
+
+#    location ~ /. {
+#        deny all;
+#        access_log off;
+#        log_not_found off;
+#    }
+
+    ##
+    # Gzip Settings
+    ##
+
+    gzip on;
+    gzip_disable "msie6";
+    gzip_vary on;
+    gzip_proxied any;
+    gzip_comp_level 1;
+    gzip_buffers 16 8k;
+    gzip_http_version 1.0;
+    gzip_types application/json text/css application/javascript;
+
     rewrite ^/api/?(.*)$ /webservice/dispatcher.php?url=$1 last;
-    rewrite ^/([0-9])(-[_a-zA-Z0-9-]*)?(-[0-9]+)?/.+\.jpg$ /img/p/$1/$1$2.jpg last;
-    rewrite ^/([0-9])([0-9])(-[_a-zA-Z0-9-]*)?(-[0-9]+)?/.+\.jpg$ /img/p/$1/$2/$1$2$3.jpg last;
-    rewrite ^/([0-9])([0-9])([0-9])(-[_a-zA-Z0-9-]*)?(-[0-9]+)?/.+\.jpg$ /img/p/$1/$2/$3/$1$2$3$4.jpg last;
-    rewrite ^/([0-9])([0-9])([0-9])([0-9])(-[_a-zA-Z0-9-]*)?(-[0-9]+)?/.+\.jpg$ /img/p/$1/$2/$3/$4/$1$2$3$4$5.jpg last;
-    rewrite ^/([0-9])([0-9])([0-9])([0-9])([0-9])(-[_a-zA-Z0-9-]*)?(-[0-9]+)?/.+\.jpg$ /img/p/$1/$2/$3/$4/$5/$1$2$3$4$5$6.jpg last;
-    rewrite ^/([0-9])([0-9])([0-9])([0-9])([0-9])([0-9])(-[_a-zA-Z0-9-]*)?(-[0-9]+)?/.+\.jpg$ /img/p/$1/$2/$3/$4/$5/$6/$1$2$3$4$5$6$7.jpg last;
-    rewrite ^/([0-9])([0-9])([0-9])([0-9])([0-9])([0-9])([0-9])(-[_a-zA-Z0-9-]*)?(-[0-9]+)?/.+\.jpg$ /img/p/$1/$2/$3/$4/$5/$6/$7/$1$2$3$4$5$6$7$8.jpg last;
-    rewrite ^/([0-9])([0-9])([0-9])([0-9])([0-9])([0-9])([0-9])([0-9])(-[_a-zA-Z0-9-]*)?(-[0-9]+)?/.+\.jpg$ /img/p/$1/$2/$3/$4/$5/$6/$7/$8/$1$2$3$4$5$6$7$8$9.jpg last;
-    rewrite ^/c/([0-9]+)(-[_a-zA-Z0-9-]*)(-[0-9]+)?/.+\.jpg$ /img/c/$1$2.jpg last;
-    rewrite ^/c/([a-zA-Z-]+)(-[0-9]+)?/.+\.jpg$ /img/c/$1.jpg last;
-    rewrite ^/([0-9]+)(-[_a-zA-Z0-9-]*)(-[0-9]+)?/.+\.jpg$ /img/c/$1$2.jpg last;
-    try_files $uri $uri/ /index.php?$args;        
+    rewrite ^/([0-9])(-[_a-zA-Z0-9-]*)?(-[0-9]+)?/.+.jpg$ /img/p/$1/$1$2$3.jpg last;
+    rewrite ^/([0-9])([0-9])(-[_a-zA-Z0-9-]*)?(-[0-9]+)?/.+.jpg$ /img/p/$1/$2/$1$2$3$4.jpg last;
+    rewrite ^/([0-9])([0-9])([0-9])(-[_a-zA-Z0-9-]*)?(-[0-9]+)?/.+.jpg$ /img/p/$1/$2/$3/$1$2$3$4$5.jpg last;
+    rewrite ^/([0-9])([0-9])([0-9])([0-9])(-[_a-zA-Z0-9-]*)?(-[0-9]+)?/.+.jpg$ /img/p/$1/$2/$3/$4/$1$2$3$4$5$6.jpg last;
+    rewrite ^/([0-9])([0-9])([0-9])([0-9])([0-9])(-[_a-zA-Z0-9-]*)?(-[0-9]+)?/.+.jpg$ /img/p/$1/$2/$3/$4/$5/$1$2$3$4$5$6$7.jpg last;
+    rewrite ^/([0-9])([0-9])([0-9])([0-9])([0-9])([0-9])(-[_a-zA-Z0-9-]*)?(-[0-9]+)?/.+.jpg$ /img/p/$1/$2/$3/$4/$5/$6/$1$2$3$4$5$6$7$8.jpg last;
+    rewrite ^/([0-9])([0-9])([0-9])([0-9])([0-9])([0-9])([0-9])(-[_a-zA-Z0-9-]*)?(-[0-9]+)?/.+.jpg$ /img/p/$1/$2/$3/$4/$5/$6/$7/$1$2$3$4$5$6$7$8$9.jpg last;
+    rewrite ^/([0-9])([0-9])([0-9])([0-9])([0-9])([0-9])([0-9])([0-9])(-[_a-zA-Z0-9-]*)?(-[0-9]+)?/.+.jpg$ /img/p/$1/$2/$3/$4/$5/$6/$7/$8/$1$2$3$4$5$6$7$8$9$10.jpg last;
+    rewrite ^/c/([0-9]+)(-[.*_a-zA-Z0-9-]*)(-[0-9]+)?/.+.jpg$ /img/c/$1$2$3.jpg last;
+    rewrite ^/c/([a-zA-Z_-]+)(-[0-9]+)?/.+.jpg$ /img/c/$1$2.jpg last;
+    rewrite ^/images_ie/?([^/]+).(jpe?g|png|gif)$ /js/jquery/plugins/fancybox/images/$1.$2 last;
+    rewrite ^/order$ /index.php?controller=order last;
+    location /admin-area/ {                           #Change this to your admin folder
+        if (!-e $request_filename) {
+            rewrite ^/.*$ /admin-area/index.php last; #Change this to your admin folder
+        }
+    }
+    location / {
+        if (!-e $request_filename) {
+            rewrite ^/.*$ /index.php last;
+        }
     }
 
-    location ~ \.php$ {
-        include snippets/fastcgi-php.conf;
-        fastcgi_pass unix:/var/run/php/php7.2-fpm.sock;
+    location ~ .php$ {
+        fastcgi_split_path_info ^(.+.php)(/.*)$;
+        try_files $uri =404;
+        fastcgi_keep_conn on;
+        include /etc/nginx/fastcgi_params;
+        fastcgi_pass unix:/var/run/php/php7.1-fpm.sock;  #Change this to your PHP-FPM location
+        fastcgi_index index.php;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        include fastcgi_params;
-    }
+   }
 
 }
 ```
@@ -202,9 +248,12 @@ certbot --pre-hook "service nginx stop" --post-hook "service nginx start" --ngin
 ### Check that prestashop file has been correctly edited under end of 80 original conf
 
 ```
-listen 443 ssl; # managed by Certbot
-ssl_certificate /etc/letsencrypt/live/hipnoticmediaclub.com/fullchain.pem; # managed by Certbot
-ssl_certificate_key /etc/letsencrypt/live/hipnoticmediaclub.com/privkey.pem; # managed by Certbot
+
+## This info is autocreated by certbot when generating the first cert
+
+    listen 443 ssl; # managed by Certbot
+ssl_certificate /etc/letsencrypt/live/example.com/fullchain.pem; # managed by Certbot
+ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem; # managed by Certbot
 ssl_session_cache shared:le_nginx_SSL:1m; # managed by Certbot
 ssl_session_timeout 1440m; # managed by Certbot
 
@@ -213,10 +262,13 @@ ssl_prefer_server_ciphers on; # managed by Certbot
 
 ssl_ciphers "ECDHE-ECDSA-AES128-GCM-SHA256 ECDHE-ECDSA-AES256-GCM-SHA384 ECDHE-ECDSA-AES128-SHA ECDHE-ECDSA-AES256-SHA ECDHE-ECDSA-AES128-SHA256 ECDHE-ECDSA-AES256-SHA384 ECDHE-RSA-AES128-GCM-SHA256 ECDHE-RSA-AES256-GCM-SHA384 ECDHE-RSA-AES128-SHA ECDHE-RSA-AES128-SHA256 ECDHE-RSA-AES256-SHA384 DHE-RSA-AES128-GCM-SHA256 DHE-RSA-AES256-GCM-SHA384 DHE-RSA-AES128-SHA DHE-RSA-AES256-SHA DHE-RSA-AES128-SHA256 DHE-RSA-AES256-SHA256 EDH-RSA-DES-CBC3-SHA"; # managed by Certbot
 
-# Redirect non-https traffic to https
-#if ($scheme != "https") {
-#     return 301 https://$host$request_uri;
-#} # managed by Certbot
+    # Redirect non-https traffic to https
+    #if ($scheme != "https") {
+    #     return 301 https://$host$request_uri;
+    #} # managed by Certbot
+
+## End of config autogenerated by certbot
+
 ```
 
 ## Restart Nginx
