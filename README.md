@@ -81,6 +81,7 @@ mysql_secure_installation
 ```
 
 ---
+```
 Enter current password for root (enter for none): Just press the Enter
 Set root password? [Y/n]: Y
 New password: Enter password
@@ -90,6 +91,7 @@ Disallow root login remotely? [Y/n]: Y
 Remove test database and access to it? [Y/n]:  Y
 Reload privilege tables now? [Y/n]:  Y
 Restart MariaDB server
+```
 ---
 
 ```
@@ -104,7 +106,7 @@ sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/
 apt update && apt install php7.2-fpm php7.2-common php7.2-mbstring php7.2-xmlrpc php7.2-soap php7.2-gd php7.2-xml php7.2-intl php7.2-mysql php7.2-cli php7.1-mcrypt php7.2-ldap php7.2-zip php7.2-curl
 ```
 ---
-
+```
 vim /etc/php/7.2/fpm/php.ini
 
 --- Change FOLLOWING LINES:
@@ -116,7 +118,7 @@ upload_max_file_size = 2G
 max_execution_time = 540
 cgi.fix_pathinfo = 0
 date.timezone = Europe/Madrid
-
+```
 ----
 
 ### CREATE PRESTASHOP DATABASE
